@@ -2,3 +2,4 @@
 /site_scons/scons.cfg.py
 *.pyc
 .sconsign.dblite
+.idea
