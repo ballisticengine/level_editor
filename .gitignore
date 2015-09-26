@@ -3,3 +3,5 @@
 *.pyc
 .sconsign.dblite
 .idea
+*.o
+./level_editor
