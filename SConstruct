@@ -14,7 +14,11 @@ ALL_LIBS = GENERAL_LIBS + GL_LIBS + BOOST_LIBS + SDL_LIBS + ROCKET_LIBS + BULLET
 engine_src = ENGINE_PATH + '/src/'
 
 engine_deps = [
-    Glob(engine_src + 'resources/*.cpp'),
+       Glob(engine_src + 'resources/ResourceManager.cpp'),
+    Glob(engine_src + 'resources/LevelManager.cpp'),
+    Glob(engine_src + 'resources/exceptions.cpp'),
+    Glob(engine_src + 'resources/WorldLoader.cpp'),
+    Glob(engine_src + 'resources/Loader.cpp'),
     Glob(engine_src + 'libload/*.cpp'),
     Glob(engine_src + 'types/*.cpp'),
     Glob(engine_src + 'misc/*.cpp'),
@@ -41,4 +45,5 @@ env = Environment(CPPPATH=[
     './src',
 ])
 
+env.Append(LINKFLAGS='-rdynamic')
 env.Program('./level_editor', main_modules, LIBS=ALL_LIBS, LIBPATH='.', CXXFLAGS=COMMON_CXX_FLAGS, )
