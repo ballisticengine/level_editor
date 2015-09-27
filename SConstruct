@@ -22,6 +22,12 @@ engine_deps = [
     Glob(engine_src + 'entities/*.cpp'),
     Glob(engine_src + 'time/*.cpp'),
     Glob(engine_src + 'physics/*.cpp'),
+    Glob(engine_src + 'config/*.cpp'),
+    Glob(engine_src + 'python/*.cpp'),
+Glob(engine_src + 'renderer/*.cpp'),
+    engine_src + 'io/SDLIOInterface.cpp',
+Glob(engine_src + 'ui/*.cpp'),
+Glob(engine_src + 'ui/librocket_interfaces/*.cpp'),
 ]
 
 main_modules = [

@@ -4,4 +4,4 @@
 .sconsign.dblite
 .idea
 *.o
-./level_editor
+level_editor
