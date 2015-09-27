@@ -1,0 +1,52 @@
+body
+{
+	font-family: Delicious;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 15;
+	color: white;
+}
+
+.window {
+ border-width: 1px;
+ border-color: #00ff00;
+ min-width: 100px;
+ min-height: 100px;
+ background-color: #aaaaaa;
+ padding: 0;
+ position: absolute;
+}
+
+#content {
+    margin: 0;
+    padding: 2px;
+}
+
+span#window-title {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+handle {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border-bottom-width: 1px;
+    border-bottom-color: #00ff00;
+    background-color: #ff0000;
+}
+
+button {
+    min-width: 50px;
+    background-color: #999999;
+    border-width: 1px;
+    border-color: #222222;
+    text-align: center;
+    padding: 2px;
+}
+
+
+button:hover {
+    background-color: #ffffff;
+}

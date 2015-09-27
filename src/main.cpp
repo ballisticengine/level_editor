@@ -20,6 +20,9 @@ int main() {
     EngineState::getInstance()->setBool("exit", false);
     EngineState::getInstance()->setString("engine_wd", "../ballistic_engine");
     
+    IO *io = IO::getInstance();
+    io->init(io);
+    
     LibLoad::getInstance()->setWD(EngineState::getInstance()->getString("engine_wd") + "/bin");
     LibLoad::getInstance()->discoverLoaders();
     LibLoad::getInstance()->registerModule("renderer2", "RendererOpenGL", "returnRenderer");
@@ -43,7 +46,10 @@ int main() {
         cout << "UI loaded!" << endl;
     }
     
-    IO *io = IO::getInstance();
-    io->init(io);
+    
+    ui->addDocument("formtest.rml", "test")->show();
+    
+    
     io->eventLoop();
+    
 }

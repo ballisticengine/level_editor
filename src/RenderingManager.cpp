@@ -4,6 +4,7 @@
 
 void LeveledRenderingManager::render() {
     this->renderer->beforeFrame();
+    this->renderer->clear(ColorRGBA(0.5,0.5,0.5,1));
     this->renderer->resetMatrix();
     UI::getInstance()->getContext()->Render();
     UI::getInstance()->getContext()->Update();
