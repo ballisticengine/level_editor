@@ -1,7 +1,7 @@
 #ifndef SIGNALS_HPP
 #define	SIGNALS_HPP
 
-#include "EditorEventListener.hpp"
+#include "listeners/EditorEventListener.hpp"
 
 class TopToolbarListener : public EditorEventListener {
 public:

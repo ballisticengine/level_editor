@@ -1,7 +1,7 @@
-#include "OpenListener.hpp"
+#include "listeners/OpenListener.hpp"
 
 OpenListener::OpenListener() {
-    ui->addDocument("open_dialog.rml", "open-dialog")->show();
+    ui->addDocument("open_dialog.rml", "open-dialog");
 }
 
 OpenListener::~OpenListener() {

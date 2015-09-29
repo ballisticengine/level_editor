@@ -4,8 +4,8 @@
 #include "ui/ui.hpp"
 
 #include "RenderingManager.hpp"
-#include "TopToolbarListener.hpp"
-#include "OpenListener.hpp"
+#include "listeners/TopToolbarListener.hpp"
+#include "listeners/OpenListener.hpp"
 
 
 IO::IO() {

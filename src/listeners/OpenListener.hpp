@@ -1,7 +1,7 @@
 #ifndef OPENLISTENER_HPP
 #define	OPENLISTENER_HPP
 
-#include "EditorEventListener.hpp"
+#include "listeners/EditorEventListener.hpp"
 
 class OpenListener : public EditorEventListener {
 protected:

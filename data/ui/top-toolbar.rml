@@ -12,16 +12,16 @@
                     <li>
                         New
                     </li>
-                    <li>
+                    <li id="open">
                         Open
                     </li>
-                    <li>
+                    <li id="save">
                         Save
                     </li>
-                    <li>
+                    <li id="save-as">
                         Save As
                     </li>
-                    <li>
+                    <li id="exit">
                         Exit
                     </li>
                 </ul>
