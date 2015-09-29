@@ -10,6 +10,7 @@
 class IO : public SDLIOInterface, public Singleton<IO> {
 private:
     virtual void initWindow();
+    
 public:
     IO();
     virtual ~IO();

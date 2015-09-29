@@ -1,0 +1,37 @@
+<rml>
+    <head>
+        <link type="text/rcss" href="basic.rcss"/>
+        <link type="text/rcss" href="style.rcss"/>
+        <link type="text/rcss" href="toolbar.rcss"/>
+    </head>
+    <body class="toolbar">
+        <ul id="top-toolbar">
+            <li id="file">
+                File
+                <ul id="file-sub">
+                    <li>
+                        New
+                    </li>
+                    <li>
+                        Open
+                    </li>
+                    <li>
+                        Save
+                    </li>
+                    <li>
+                        Save As
+                    </li>
+                    <li>
+                        Exit
+                    </li>
+                </ul>
+            </li>
+            <li id="options">
+                Options
+                <ul id="options-sub">
+                    <li>Settings</li>
+                </ul>
+            </li>
+        </ul>
+    </body>
+</rml>

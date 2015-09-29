@@ -1,0 +1,17 @@
+<template name="window" content="content">
+    <head>
+        <link type="text/rcss" href="basic.rcss"/>
+        <link type="text/rcss" href="style.rcss"/>
+    </head>
+    <body class="window">
+        <handle move_target="#document">
+            <span id="window-title">Title</span>
+        </handle>
+        <div id="content">
+        </div>
+        <div id="buttons">
+            <button id="ok">Ok</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </body>
+</template>

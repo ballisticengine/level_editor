@@ -1,0 +1,9 @@
+<rml>
+    <head>
+        <link type="text/rcss" href="basic.rcss"/>
+        <link type="text/rcss" href="style.rcss"/>
+    </head>
+    <body class="toolbar">
+        right toolbar
+    </body>
+</rml>

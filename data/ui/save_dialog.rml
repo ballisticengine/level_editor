@@ -1,0 +1,12 @@
+<rml>
+    <head>
+        <title>Save level</title>
+        <link type="text/template" href="window.rml" />
+
+    </head>
+    <body template="window">
+        <div id="content">
+            <input type="text" value="" placeholder="File name" />
+        </div>
+    </body>
+</rml>

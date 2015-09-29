@@ -47,7 +47,6 @@ int main() {
     }
     
     
-    ui->addDocument("formtest.rml", "test")->show();
     
     
     io->eventLoop();
