@@ -5,6 +5,7 @@
 
 #include "RenderingManager.hpp"
 #include "TopToolbarListener.hpp"
+#include "OpenListener.hpp"
 
 
 IO::IO() {
@@ -32,17 +33,11 @@ void IO::initWindow() {
 void IO::eventLoop() {
     SDL_Event event;
     UI *ui = UI::getInstance();
-    ui->addDocument("top-toolbar.rml", "top-toolbar")->show();
-    /*
-      AddEventListener(const EMP::Core::String& event,
-                      Rocket::Core::EventListener* listener,
-                      bool in_capture_phase = false);
-     */
+    
+    
     TopToolbarListener *ttl = new TopToolbarListener();
-    ui->getDocument("top-toolbar")->getDocument()
-    ->GetElementById("file")->AddEventListener("click",  ttl);
-     ui->getDocument("top-toolbar")->getDocument()
-    ->GetElementById("options")->AddEventListener("click",  ttl);
+    new OpenListener();
+    
     while (!EngineState::getInstance()->getBool("exit")) {
         while (SDL_PollEvent(& event)) {
 
