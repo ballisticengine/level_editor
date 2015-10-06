@@ -34,7 +34,7 @@ int main() {
     LeveledRenderingManager *rm = LeveledRenderingManager::getInstance();
     rm->setRenderer(ri);
     rm->setFlush(IO::flush);
-    Rocket::Core::RenderInterface  *ui_renderer = ri->getUiRenderer();
+    Rocket::Core::RenderInterface *ui_renderer = ri->getUiRenderer();
     RocketSDL2SystemInterface *system_interface = new RocketSDL2SystemInterface();
     Rocket::Core::FileInterface *file_interface = new ShellFileInterface(ui_dir.c_str());
 
@@ -46,9 +46,5 @@ int main() {
         cout << "UI loaded!" << endl;
     }
     
-    
-    
-    
     io->eventLoop();
-    
 }

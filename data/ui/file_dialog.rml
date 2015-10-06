@@ -4,9 +4,11 @@
         <link type="text/rcss" href="style.rcss"/>
     </head>
     <body class="window">
-        
-        <div id="content">
-        </div>
+
+        <form>
+            <div id="content">
+            </div>
+        </form>
         <div id="buttons">
             <button id="ok">Ok</button>
             <button id="cancel">Cancel</button>
