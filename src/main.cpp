@@ -6,13 +6,14 @@ using namespace std;
 #include "config/EngineState.hpp"
 #include "libload/LibLoad.hpp"
 #include "renderer/RendererInterface.hpp"
+//#include "renderer/RenderingManager.hpp"
 #include "ui/librocket_interfaces/RendererInterfaceSDL2.hpp"
 #include "ui/librocket_interfaces/ShellFileInterface.hpp"
 #include "ui/librocket_interfaces/SystemInterfaceSDL2.hpp"
 #include "ui/ui.hpp"
 
 #include "IO.hpp"
-#include "RenderingManager.hpp"
+#include "LeveledRenderingManager.hpp"
 
 int main() {
     cout << "Ballistic Engine Level Editor" << endl;
@@ -32,7 +33,9 @@ int main() {
     RendererInterface *ri = (RendererInterface *) LibLoad::getInstance()->getModuleClass("renderer2");
     ri->init(800, 600, IO::getInstance());
     LeveledRenderingManager *rm = LeveledRenderingManager::getInstance();
+    //RenderingManager *rm2 = RenderingManager::getInstance();
     rm->setRenderer(ri);
+    //rm2->setRenderer(ri);
     rm->setFlush(IO::flush);
     Rocket::Core::RenderInterface *ui_renderer = ri->getUiRenderer();
     RocketSDL2SystemInterface *system_interface = new RocketSDL2SystemInterface();

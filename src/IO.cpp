@@ -4,8 +4,9 @@
 #include "ui/ui.hpp"
 #include "world/WorldManager.hpp"
 #include "resources/ResourceManager.hpp"
+// #include "renderer/RenderingManager.hpp"
 
-#include "RenderingManager.hpp"
+#include "LeveledRenderingManager.hpp"
 #include "listeners/TopToolbarListener.hpp"
 #include "listeners/OpenListener.hpp"
 
@@ -18,7 +19,7 @@ void onLevelChange(StateChangeData data) {
     World *w = (World*) ResourceManager::getInstance()->get("level.xml", LEVEL);
     ResourceManager::getInstance()->resolveAllDependencies();
     WorldManager::getInstance()->setWorld(w);
-    LeveledRenderingManager::getInstance()->setupTextures();
+//    LeveledRenderingManager::getInstance()->setupTextures();
     
 }
 

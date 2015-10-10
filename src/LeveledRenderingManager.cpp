@@ -1,17 +1,21 @@
-#include "RenderingManager.hpp"
+#include "LeveledRenderingManager.hpp"
 #include "world/WorldManager.hpp"
 
 #include "ui/ui.hpp"
 
+LeveledRenderingManager::LeveledRenderingManager() {
+    rm = RenderingManager::getInstance();
+}
+
 void LeveledRenderingManager::render() {
     this->renderer->beforeFrame();
     this->renderer->clear(ColorRGBA(0.5, 0.5, 0.5, 1));
-     this->world = WorldManager::getInstance()->getCurrentWorld();
-    if (this->world) {
-        this->renderer->resetMatrix();
-        this->renderAllRooms();
-        cout << "w" << endl;
-    }
+//     this->world = WorldManager::getInstance()->getCurrentWorld();
+//    if (this->world) {
+//        this->renderer->resetMatrix();
+//        this->renderAllRooms();
+//        cout << "w" << endl;
+//    }
     this->renderer->resetMatrix();
     UI::getInstance()->getContext()->Render();
     UI::getInstance()->getContext()->Update();
