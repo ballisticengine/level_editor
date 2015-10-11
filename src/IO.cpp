@@ -19,6 +19,21 @@ void onLevelChange(StateChangeData data) {
     World *w = (World*) ResourceManager::getInstance()->get("level.xml", LEVEL);
     ResourceManager::getInstance()->resolveAllDependencies();
     WorldManager::getInstance()->setWorld(w);
+    for(auto a: LeveledRenderingManager::getInstance()->getActions()) {
+        a->setWorld(w);
+    }
+    
+    vector<LoadedResource *> ts = ResourceManager::getInstance()->getByType(TEXTURE);
+
+    size_t ts_size = ts.size();
+    for (size_t i = 0; i < ts_size; i++) {
+
+        if (ts[i]->object) {
+           
+            LeveledRenderingManager::getInstance()->getRenderer()
+            ->setupTexture((Ballistic::Types::Texture *) ts[i]->object);
+        }
+    }
 //    LeveledRenderingManager::getInstance()->setupTextures();
     
 }

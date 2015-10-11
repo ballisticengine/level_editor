@@ -7,8 +7,7 @@
 #include "misc/singleton.hpp"
 
 class LeveledRenderingManager : public RenderingManagerInterface, public Singleton<LeveledRenderingManager> {
-    protected:
-        RenderingManager *rm;
+
     public:
         LeveledRenderingManager();
         virtual void render();
