@@ -10,6 +10,8 @@
 #include "listeners/TopToolbarListener.hpp"
 #include "listeners/OpenListener.hpp"
 
+World *IO::world = 0;
+
 void onLevelChange(StateChangeData data) {
 
     string lvl = *(string *) data.value;
@@ -19,23 +21,23 @@ void onLevelChange(StateChangeData data) {
     World *w = (World*) ResourceManager::getInstance()->get("level.xml", LEVEL);
     ResourceManager::getInstance()->resolveAllDependencies();
     WorldManager::getInstance()->setWorld(w);
-    for(auto a: LeveledRenderingManager::getInstance()->getActions()) {
+    for (auto a : LeveledRenderingManager::getInstance()->getActions()) {
         a->setWorld(w);
     }
-    
+
     vector<LoadedResource *> ts = ResourceManager::getInstance()->getByType(TEXTURE);
 
     size_t ts_size = ts.size();
     for (size_t i = 0; i < ts_size; i++) {
 
         if (ts[i]->object) {
-           
+
             LeveledRenderingManager::getInstance()->getRenderer()
-            ->setupTexture((Ballistic::Types::Texture *) ts[i]->object);
+                    ->setupTexture((Ballistic::Types::Texture *) ts[i]->object);
         }
     }
-//    LeveledRenderingManager::getInstance()->setupTextures();
-    
+    //    LeveledRenderingManager::getInstance()->setupTextures();
+    IO::world = WorldManager::getInstance()->getCurrentWorld();
 }
 
 IO::IO() {
@@ -73,15 +75,42 @@ void IO::eventLoop() {
     while (!EngineState::getInstance()->getBool("exit")) {
         while (SDL_PollEvent(& event)) {
 
-            if (event.type == SDL_QUIT) {
-                EngineState::getInstance()->setBool("exit", true);
+            switch (event.type) {
+                case SDL_QUIT:
+                    EngineState::getInstance()->setBool("exit", true);
+                    break;
+
+                case SDL_MOUSEWHEEL:
+
+                    IO::world->observer.translate(0, 0, event.wheel.y);
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_RIGHT) {
+                        EngineState::getInstance()->setBool("view_drag", true);
+                    }
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    if (event.button.button == SDL_BUTTON_RIGHT) {
+                        EngineState::getInstance()->setBool("view_drag", false);
+                    }
+                    break;
+
+                case  SDL_MOUSEMOTION:
+                    if(EngineState::getInstance()->getBool("view_drag")) {
+                        IO::world->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
+                    }
+                    break;
+                    
+                case SDL_KEYUP:
+                    if (event.key.keysym.sym == 'o') {
+                        EngineState::getInstance()->setString("current_level", "level2");
+                    }
+                    break;
             }
 
-            if (event.type == SDL_KEYUP) {
-                if (event.key.keysym.sym == 'o') {
-                    EngineState::getInstance()->setString("current_level", "level2");
-                }
-            }
+
 
             UI::getInstance()->processSDLEvent(event);
         }

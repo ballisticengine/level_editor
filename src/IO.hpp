@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "io/SDLIOInterface.hpp"
+#include "world/World.hpp"
 #include "misc/singleton.hpp" 
 
 class IO : public SDLIOInterface, public Singleton<IO> {
@@ -12,6 +13,7 @@ private:
     virtual void initWindow();
     
 public:
+    static World *world;
     IO();
     virtual ~IO();
     virtual void eventLoop();
