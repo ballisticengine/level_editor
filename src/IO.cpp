@@ -1,5 +1,7 @@
 #include "IO.hpp"
 
+#include <cmath>
+
 #include "config/EngineState.hpp"
 #include "ui/ui.hpp"
 #include "world/WorldManager.hpp"
@@ -9,8 +11,12 @@
 #include "LeveledRenderingManager.hpp"
 #include "listeners/TopToolbarListener.hpp"
 #include "listeners/OpenListener.hpp"
+#include "LeveledRenderingManager.hpp"
 
 World *IO::world = 0;
+
+#define PI 3.14159265358979323846
+#define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
 
 void onLevelChange(StateChangeData data) {
 
@@ -71,7 +77,8 @@ void IO::eventLoop() {
 
     TopToolbarListener *ttl = new TopToolbarListener();
     new OpenListener();
-
+    Vector3d rotation;
+    e_loc lx, ly, lz; 
     while (!EngineState::getInstance()->getBool("exit")) {
         while (SDL_PollEvent(& event)) {
 
@@ -81,11 +88,30 @@ void IO::eventLoop() {
                     break;
 
                 case SDL_MOUSEWHEEL:
-
-                    IO::world->observer.translate(0, 0, event.wheel.y);
+/*
+ self.world.observer.velocity.t.x += -math.sin(xdelta)*step
+            self.world.observer.velocity.t.z += math.cos(xdelta)*step
+            self.world.observer.velocity.t.y += math.sin(ydelta)*step
+ */
+                    
+                    rotation =  IO::world->observer.getCoords().rotation;
+                    lx = sin(DEG2RAD(rotation.x))*event.wheel.y;
+                    ly = -sin(DEG2RAD(rotation.x))*event.wheel.y;
+                    lz =  cos(DEG2RAD(rotation.y))*event.wheel.y;
+                    
+                    
+                    IO::world->observer.translate(lx, ly, lz);
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_LEFT) {
+                        RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
+                        Vector3d location_3d = ri->unproject(event.button.x, event.button.y);
+                        location_3d.write();
+                        IO::world->observer.getCoords().rotation.write();
+                        IO::world->getPhysics()->rayTest(location_3d, -IO::world->observer.getCoords().rotation);
+                    }
+
                     if (event.button.button == SDL_BUTTON_RIGHT) {
                         EngineState::getInstance()->setBool("view_drag", true);
                     }
@@ -97,12 +123,12 @@ void IO::eventLoop() {
                     }
                     break;
 
-                case  SDL_MOUSEMOTION:
-                    if(EngineState::getInstance()->getBool("view_drag")) {
+                case SDL_MOUSEMOTION:
+                    if (EngineState::getInstance()->getBool("view_drag")) {
                         IO::world->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
                     }
                     break;
-                    
+
                 case SDL_KEYUP:
                     if (event.key.keysym.sym == 'o') {
                         EngineState::getInstance()->setString("current_level", "level2");

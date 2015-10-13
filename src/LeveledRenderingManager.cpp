@@ -9,12 +9,9 @@
 #include "ui/ui.hpp"
 
 LeveledRenderingManager::LeveledRenderingManager() {
-    
-    
     addAction(new PositionLights());
     addAction(new RenderAllRooms());
-    
-
+    addAction(new RenderAllEntities());
 }
 
 void LeveledRenderingManager::render() {
