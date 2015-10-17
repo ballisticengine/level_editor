@@ -47,6 +47,7 @@ void onLevelChange(StateChangeData data) {
     }
 
     IO::world = WorldManager::getInstance()->getCurrentWorld();
+    IO::world->colorize();
 }
 
 IO::IO() {
@@ -77,12 +78,13 @@ void IO::eventLoop() {
     EngineState::getInstance()->setString("current_level", "");
     EngineState::getInstance()->setStateHandler("current_level", onLevelChange);
 
-
+    int mouse_x, mouse_y;
     TopToolbarListener *ttl = new TopToolbarListener();
     new OpenListener();
     Vector3d rotation;
     e_loc lx, ly, lz;
     while (!EngineState::getInstance()->getBool("exit")) {
+        LeveledRenderingManager::getInstance()->render();
         while (SDL_PollEvent(& event)) {
 
             switch (event.type) {
@@ -103,11 +105,14 @@ void IO::eventLoop() {
 
                 case SDL_MOUSEBUTTONDOWN:
                     if (event.button.button == SDL_BUTTON_LEFT) {
+                        SDL_GetMouseState(&mouse_x, &mouse_y);
                         RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
                         Vector3d location_3d = ri->unproject(event.button.x, event.button.y);
-                         IO::world->observer.locate(-location_3d.x,-location_3d.y,-location_3d.z);
-                   
-                       
+                        ColorRGBA c= ri->readPixel(event.button.x, event.button.y);
+                          cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a  << endl;
+                        //IO::world->observer.locate(-location_3d.x, -location_3d.y, -location_3d.z);
+
+
                     }
 
                     if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -138,6 +143,6 @@ void IO::eventLoop() {
 
             UI::getInstance()->processSDLEvent(event);
         }
-        LeveledRenderingManager::getInstance()->render();
+       
     }
 }

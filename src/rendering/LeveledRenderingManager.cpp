@@ -20,9 +20,16 @@ void LeveledRenderingManager::render() {
     this->renderer->clear(ColorRGBA(0.5, 0.5, 0.5, 1));
     
     if(WorldManager::getInstance()->getCurrentWorld()) {
+        this->renderer->enableTexturing(false);
         for(auto a: actions) {
+            
             a->render();
         }
+        //this->renderer->enableTexturing(true);
+//        for(auto a: actions) {
+//            
+//            a->render();
+//        }
     }
 //     this->world = WorldManager::getInstance()->getCurrentWorld();
 //    if (this->world) {
