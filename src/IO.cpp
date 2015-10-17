@@ -107,9 +107,13 @@ void IO::eventLoop() {
                     if (event.button.button == SDL_BUTTON_LEFT) {
                         SDL_GetMouseState(&mouse_x, &mouse_y);
                         RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
-                        Vector3d location_3d = ri->unproject(event.button.x, event.button.y);
-                        ColorRGBA c= ri->readPixel(event.button.x, event.button.y);
-                          cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a  << endl;
+
+                        ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
+                        cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a << endl;
+                        ObjectEntity *e = IO::world->findEntityByColor(c);
+                        if (e) {
+                            cout << "Name: " << e->name << endl;
+                        }
                         //IO::world->observer.locate(-location_3d.x, -location_3d.y, -location_3d.z);
 
 
@@ -143,6 +147,6 @@ void IO::eventLoop() {
 
             UI::getInstance()->processSDLEvent(event);
         }
-       
+
     }
 }
