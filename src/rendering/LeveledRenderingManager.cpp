@@ -1,4 +1,4 @@
-#include "LeveledRenderingManager.hpp"
+
 #include "world/WorldManager.hpp"
 
 #include "renderer/actions/RenderAllRooms.hpp"
@@ -7,6 +7,7 @@
 #include "renderer/actions/PositionLights.hpp"
 #include "renderer/actions/RenderUI.hpp"
 #include "ui/ui.hpp"
+#include "rendering/LeveledRenderingManager.hpp"
 
 LeveledRenderingManager::LeveledRenderingManager() {
     addAction(new PositionLights());

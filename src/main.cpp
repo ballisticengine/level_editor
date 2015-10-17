@@ -13,7 +13,7 @@ using namespace std;
 #include "ui/ui.hpp"
 
 #include "IO.hpp"
-#include "LeveledRenderingManager.hpp"
+#include "rendering/LeveledRenderingManager.hpp"
 
 int main() {
     cout << "Ballistic Engine Level Editor" << endl;

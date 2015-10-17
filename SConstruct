@@ -38,6 +38,7 @@ Glob(engine_src + 'ui/librocket_interfaces/*.cpp'),
 main_modules = [
    Glob('src/*.cpp'),
     Glob('src/listeners/*.cpp'),
+Glob('src/rendering/*.cpp'),
 ] + engine_deps
 
 env = Environment(CPPPATH=[

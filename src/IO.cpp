@@ -8,10 +8,10 @@
 #include "resources/ResourceManager.hpp"
 // #include "renderer/RenderingManager.hpp"
 
-#include "LeveledRenderingManager.hpp"
+#include "rendering/LeveledRenderingManager.hpp"
 #include "listeners/TopToolbarListener.hpp"
 #include "listeners/OpenListener.hpp"
-#include "LeveledRenderingManager.hpp"
+#include "libload/LibLoad.hpp"
 
 World *IO::world = 0;
 
@@ -20,6 +20,8 @@ World *IO::world = 0;
 
 void onLevelChange(StateChangeData data) {
 
+    Loader *l = (Loader *) LibLoad::getInstance()->getLoaderByExtension("xml", LEVEL);
+    //l->setBool("triangles", true);
     string lvl = *(string *) data.value;
     cout << "level changed to: " << lvl << endl;
     ResourceManager::getInstance()->setWD(EngineState::getInstance()->getString("engine_wd") + "/data");
@@ -27,6 +29,7 @@ void onLevelChange(StateChangeData data) {
     World *w = (World*) ResourceManager::getInstance()->get("level.xml", LEVEL);
     ResourceManager::getInstance()->resolveAllDependencies();
     WorldManager::getInstance()->setWorld(w);
+
     for (auto a : LeveledRenderingManager::getInstance()->getActions()) {
         a->setWorld(w);
     }
@@ -42,7 +45,7 @@ void onLevelChange(StateChangeData data) {
                     ->setupTexture((Ballistic::Types::Texture *) ts[i]->object);
         }
     }
-    //    LeveledRenderingManager::getInstance()->setupTextures();
+
     IO::world = WorldManager::getInstance()->getCurrentWorld();
 }
 
@@ -78,7 +81,7 @@ void IO::eventLoop() {
     TopToolbarListener *ttl = new TopToolbarListener();
     new OpenListener();
     Vector3d rotation;
-    e_loc lx, ly, lz; 
+    e_loc lx, ly, lz;
     while (!EngineState::getInstance()->getBool("exit")) {
         while (SDL_PollEvent(& event)) {
 
@@ -88,18 +91,13 @@ void IO::eventLoop() {
                     break;
 
                 case SDL_MOUSEWHEEL:
-/*
- self.world.observer.velocity.t.x += -math.sin(xdelta)*step
-            self.world.observer.velocity.t.z += math.cos(xdelta)*step
-            self.world.observer.velocity.t.y += math.sin(ydelta)*step
- */
-                    
-                    rotation =  IO::world->observer.getCoords().rotation;
-                    lx = sin(DEG2RAD(rotation.x))*event.wheel.y;
-                    ly = -sin(DEG2RAD(rotation.x))*event.wheel.y;
-                    lz =  cos(DEG2RAD(rotation.y))*event.wheel.y;
-                    
-                    
+
+                    rotation = IO::world->observer.getCoords().rotation;
+                    lx = sin(DEG2RAD(rotation.x)) * event.wheel.y;
+                    ly = -sin(DEG2RAD(rotation.x)) * event.wheel.y;
+                    lz = cos(DEG2RAD(rotation.y)) * event.wheel.y;
+
+
                     IO::world->observer.translate(lx, ly, lz);
                     break;
 
@@ -107,9 +105,9 @@ void IO::eventLoop() {
                     if (event.button.button == SDL_BUTTON_LEFT) {
                         RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
                         Vector3d location_3d = ri->unproject(event.button.x, event.button.y);
-                        location_3d.write();
-                        IO::world->observer.getCoords().rotation.write();
-                        IO::world->getPhysics()->rayTest(location_3d, -IO::world->observer.getCoords().rotation);
+                         IO::world->observer.locate(-location_3d.x,-location_3d.y,-location_3d.z);
+                   
+                       
                     }
 
                     if (event.button.button == SDL_BUTTON_RIGHT) {
