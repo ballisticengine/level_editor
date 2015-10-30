@@ -20,6 +20,7 @@ int main() {
     
     EngineState::getInstance()->setBool("exit", false);
     EngineState::getInstance()->setString("engine_wd", "../ballistic_engine");
+    EngineState::getInstance()->setBool("lighting", true);
     
     IO *io = IO::getInstance();
     io->init(io);
@@ -33,9 +34,9 @@ int main() {
     RendererInterface *ri = (RendererInterface *) LibLoad::getInstance()->getModuleClass("renderer2");
     ri->init(800, 600, IO::getInstance());
     LeveledRenderingManager *rm = LeveledRenderingManager::getInstance();
-    //RenderingManager *rm2 = RenderingManager::getInstance();
+    
     rm->setRenderer(ri);
-    //rm2->setRenderer(ri);
+    
     rm->setFlush(IO::flush);
     Rocket::Core::RenderInterface *ui_renderer = ri->getUiRenderer();
     RocketSDL2SystemInterface *system_interface = new RocketSDL2SystemInterface();

@@ -13,7 +13,9 @@
 #include "listeners/OpenListener.hpp"
 #include "libload/LibLoad.hpp"
 
+
 World *IO::world = 0;
+ObjectEntity *IO::selected_entity = 0;
 
 #define PI 3.14159265358979323846
 #define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
@@ -40,8 +42,8 @@ void onLevelChange(StateChangeData data) {
     for (size_t i = 0; i < ts_size; i++) {
 
         if (ts[i]->object) {
-
-            LeveledRenderingManager::getInstance()->getRenderer()
+            LeveledRenderingManager::getInstance()
+                    ->getRenderer()
                     ->setupTexture((Ballistic::Types::Texture *) ts[i]->object);
         }
     }
@@ -73,6 +75,7 @@ void IO::initWindow() {
 }
 
 void IO::eventLoop() {
+
     SDL_Event event;
     UI *ui = UI::getInstance();
     EngineState::getInstance()->setString("current_level", "");
@@ -83,8 +86,10 @@ void IO::eventLoop() {
     new OpenListener();
     Vector3d rotation;
     e_loc lx, ly, lz;
+    LeveledRenderingManager::getInstance()
+                    ->getRenderer()->addShader("light");
     while (!EngineState::getInstance()->getBool("exit")) {
-        LeveledRenderingManager::getInstance()->render();
+
         while (SDL_PollEvent(& event)) {
 
             switch (event.type) {
@@ -106,17 +111,19 @@ void IO::eventLoop() {
                 case SDL_MOUSEBUTTONDOWN:
                     if (event.button.button == SDL_BUTTON_LEFT) {
                         SDL_GetMouseState(&mouse_x, &mouse_y);
-                        RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
-
-                        ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
-                        cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a << endl;
-                        ObjectEntity *e = IO::world->findEntityByColor(c);
-                        if (e) {
-                            cout << "Name: " << e->name << endl;
+                        if (IO::world) {
+                            RendererInterface *ri = LeveledRenderingManager::getInstance()->getRenderer();
+                            ri->turnLights(false);
+                            LeveledRenderingManager::getInstance()->renderColored();
+                            ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
+                            //ri->turnLights(true);
+                            // LeveledRenderingManager::getInstance()->render();
+                            cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a << endl;
+                            IO::selected_entity = IO::world->findEntityByColor(c);
+                            if (IO::selected_entity) {
+                                cout << "Name: " << IO::selected_entity->name << endl;
+                            }
                         }
-                        //IO::world->observer.locate(-location_3d.x, -location_3d.y, -location_3d.z);
-
-
                     }
 
                     if (event.button.button == SDL_BUTTON_RIGHT) {
@@ -143,10 +150,9 @@ void IO::eventLoop() {
                     break;
             }
 
-
-
             UI::getInstance()->processSDLEvent(event);
         }
+        LeveledRenderingManager::getInstance()->render();
 
     }
 }

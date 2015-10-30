@@ -14,6 +14,7 @@ private:
     
 public:
     static World *world;
+    static ObjectEntity *selected_entity;
     IO();
     virtual ~IO();
     virtual void eventLoop();
