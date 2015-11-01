@@ -16,7 +16,7 @@
 
 
 World *IO::world = 0;
-ObjectEntity *IO::selected_entity = 0;
+
 
 #define PI 3.14159265358979323846
 #define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
@@ -121,9 +121,9 @@ void IO::eventLoop() {
                             ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
                             //ri->turnLights(true);
 
-                            IO::selected_entity = IO::world->findEntityByColor(c);
-                            if (IO::selected_entity) {
-                                cout << "Name: " << IO::selected_entity->name << endl;
+                           EngineState::getInstance()->setPtr("selected_entity",IO::world->findEntityByColor(c));
+                            if (EngineState::getInstance()->getPtr("selected_entity")) {
+                               // cout << "Name: " << IO::selected_entity->name << endl;
                             }
                         }
                     }
@@ -148,7 +148,7 @@ void IO::eventLoop() {
 
                     if (EngineState::getInstance()->getString("mode") == "translate") {
                         SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
-                        IO::selected_entity->translate(mouse_x / 10, mouse_y / 10, 0);
+                        ((ObjectEntity *)EngineState::getInstance()->getPtr("selected_entity"))->translate(mouse_x / 10, mouse_y / 10, 0);
                     }
 
                     break;
@@ -159,7 +159,7 @@ void IO::eventLoop() {
 //                            EngineState::getInstance()->setString("current_level", "level2");
 //                            break;
                         case 't':
-                            if (IO::selected_entity) {
+                            if (EngineState::getInstance()->getPtr("selected_entity")) {
                                 EngineState::getInstance()->setString("mode", "translate");
                             }
                             break;
