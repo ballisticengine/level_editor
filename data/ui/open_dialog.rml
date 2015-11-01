@@ -9,7 +9,7 @@
             <span id="window-title">Open Level</span>
         </handle>
         <div id="content">
-            <input type="text" value="" id="open-level-name" name="open-level-name" placeholder="File name" />
+            <input type="text" value="level2" id="open-level-name" name="open-level-name" placeholder="File name" />
         </div>
     </body>
 </rml>

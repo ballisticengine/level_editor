@@ -11,6 +11,7 @@
 #include "rendering/LeveledRenderingManager.hpp"
 #include "listeners/TopToolbarListener.hpp"
 #include "listeners/OpenListener.hpp"
+#include "listeners/SaveListener.hpp"
 #include "libload/LibLoad.hpp"
 
 
@@ -85,6 +86,7 @@ void IO::eventLoop() {
     int mouse_x, mouse_y;
     TopToolbarListener *ttl = new TopToolbarListener();
     new OpenListener();
+    new SaveListener();
     Vector3d rotation;
     e_loc lx, ly, lz;
     LeveledRenderingManager::getInstance()
@@ -143,21 +145,23 @@ void IO::eventLoop() {
                             IO::world->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
                         }
                     }
-                    
-                    if(EngineState::getInstance()->getString("mode")=="translate") {
+
+                    if (EngineState::getInstance()->getString("mode") == "translate") {
                         SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
-                        IO::selected_entity->translate(mouse_x/10, mouse_y/10, 0);
+                        IO::selected_entity->translate(mouse_x / 10, mouse_y / 10, 0);
                     }
-                    
+
                     break;
 
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
-                        case 'o':
-                            EngineState::getInstance()->setString("current_level", "level2");
-                            break;
+//                        case 'o':
+//                            EngineState::getInstance()->setString("current_level", "level2");
+//                            break;
                         case 't':
-                            EngineState::getInstance()->setString("mode", "translate");
+                            if (IO::selected_entity) {
+                                EngineState::getInstance()->setString("mode", "translate");
+                            }
                             break;
                         case 'n':
                             EngineState::getInstance()->setString("mode", "normal");

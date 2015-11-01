@@ -1,12 +1,15 @@
 <rml>
     <head>
         <title>Save level</title>
-        <link type="text/template" href="window.rml" />
+        <link type="text/template" href="file_dialog.rml" />
 
     </head>
     <body template="window">
+        <handle move_target="#document">
+            <span id="window-title">Save Level</span>
+        </handle>
         <div id="content">
-            <input type="text" value="" placeholder="File name" />
+            <input type="text" value="" id="save-level-name" name="save-level-name" placeholder="File name" />
         </div>
     </body>
 </rml>

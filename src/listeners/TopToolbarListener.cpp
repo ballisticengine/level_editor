@@ -39,4 +39,8 @@ void TopToolbarListener::ProcessEvent(Rocket::Core::Event& event) {
     if(id == "open") {
         ui->getDocument("open-dialog")->show();
     }
+    
+    if(id == "save-as") {
+        ui->getDocument("save-dialog")->show();
+    }
 }
