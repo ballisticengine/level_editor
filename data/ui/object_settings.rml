@@ -1,0 +1,14 @@
+<template name="window" content="content">
+    <head>
+    <title>Object settings</title>
+    </head>
+    <body class="window">
+        <handle move_target="#document">
+            <span id="window-title">Object settings</span>
+        </handle>
+            <div id="content">
+                info here
+            </div>
+       
+    </body>
+</template>
