@@ -79,6 +79,7 @@ void IO::eventLoop() {
     SDL_Event event;
     UI *ui = UI::getInstance();
     EngineState::getInstance()->setString("current_level", "");
+    EngineState::getInstance()->setString("mode", "normal");
     EngineState::getInstance()->setStateHandler("current_level", onLevelChange);
 
     int mouse_x, mouse_y;
@@ -87,7 +88,7 @@ void IO::eventLoop() {
     Vector3d rotation;
     e_loc lx, ly, lz;
     LeveledRenderingManager::getInstance()
-                    ->getRenderer()->addShader("light");
+            ->getRenderer()->addShader("light");
     while (!EngineState::getInstance()->getBool("exit")) {
 
         while (SDL_PollEvent(& event)) {
@@ -117,8 +118,7 @@ void IO::eventLoop() {
                             LeveledRenderingManager::getInstance()->renderColored();
                             ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
                             //ri->turnLights(true);
-                            // LeveledRenderingManager::getInstance()->render();
-                            cout << "C_RGBA " << c.r << ", " << c.g << ", " << c.b << ", " << c.a << endl;
+
                             IO::selected_entity = IO::world->findEntityByColor(c);
                             if (IO::selected_entity) {
                                 cout << "Name: " << IO::selected_entity->name << endl;
@@ -138,15 +138,34 @@ void IO::eventLoop() {
                     break;
 
                 case SDL_MOUSEMOTION:
-                    if (EngineState::getInstance()->getBool("view_drag")) {
-                        IO::world->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
+                    if (EngineState::getInstance()->getString("mode") == "normal") {
+                        if (EngineState::getInstance()->getBool("view_drag")) {
+                            IO::world->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
+                        }
                     }
+                    
+                    if(EngineState::getInstance()->getString("mode")=="translate") {
+                        SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
+                        IO::selected_entity->translate(mouse_x/10, mouse_y/10, 0);
+                    }
+                    
                     break;
 
                 case SDL_KEYUP:
-                    if (event.key.keysym.sym == 'o') {
-                        EngineState::getInstance()->setString("current_level", "level2");
+                    switch (event.key.keysym.sym) {
+                        case 'o':
+                            EngineState::getInstance()->setString("current_level", "level2");
+                            break;
+                        case 't':
+                            EngineState::getInstance()->setString("mode", "translate");
+                            break;
+                        case 'n':
+                            EngineState::getInstance()->setString("mode", "normal");
+                            break;
                     }
+
+
+
                     break;
             }
 
