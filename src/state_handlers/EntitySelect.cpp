@@ -1,5 +1,6 @@
 #include "EntitySelect.hpp"
 
+#include "entities/ObjectEntity.hpp"
 #include "listeners/ObjectSettingsHandler.hpp"
 
 
@@ -12,5 +13,6 @@ void EntitySelect::before(StateChangeData data) {
 }
 
 void EntitySelect::after(StateChangeData data) {
-    cout << "EntitySelect" << endl;
+    ObjectEntity *entity = (ObjectEntity *) data.value;
+    cout << "EntitySelect " << entity->name << endl;
 }

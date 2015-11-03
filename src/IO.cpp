@@ -23,12 +23,6 @@
 #define PI 3.14159265358979323846
 #define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
 
-//void onLevelChange(StateChangeData data) {
-//
-//    
-//    IO::world = WorldManager::getInstance()->getCurrentWorld();
-//    IO::world->colorize();
-//}
 
 IO::IO() {
 }
@@ -104,9 +98,9 @@ void IO::eventLoop() {
 
                            EngineState::getInstance()->setPtr("selected_entity", 
                                    wm->getCurrentWorld()->findEntityByColor(c));
-                            if (EngineState::getInstance()->getPtr("selected_entity")) {
-                                cout << "Name: " << wm->getCurrentWorld()->findEntityByColor(c)->name << endl;
-                            }
+//                            if (EngineState::getInstance()->getPtr("selected_entity")) {
+//                                cout << "Name: " << wm->getCurrentWorld()->findEntityByColor(c)->name << endl;
+//                            }
                         }
                     }
 
