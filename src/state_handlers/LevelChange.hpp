@@ -3,9 +3,9 @@
 
 #include "misc/StateHandler.hpp"
 
-class LevelChange : public StateHandler{
+class LevelChange : public StateHandler {
 public:
-      virtual void before(StateChangeData data);
+    virtual void before(StateChangeData data);
     virtual void after(StateChangeData data);
 
 };

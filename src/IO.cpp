@@ -16,6 +16,7 @@
 
 
 #include "state_handlers/LevelChange.hpp"
+#include "state_handlers/EntitySelect.hpp"
 
 
 
@@ -60,6 +61,7 @@ void IO::eventLoop() {
     
     
     EngineState::getInstance()->setStateHandler("current_level", new LevelChange());
+    EngineState::getInstance()->setStateHandler("selected_entity", new EntitySelect());
 
     int mouse_x, mouse_y;
     TopToolbarListener *ttl = new TopToolbarListener();
