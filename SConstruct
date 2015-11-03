@@ -1,5 +1,5 @@
 from scons_cfg import *
-COMMON_CXX_FLAGS = "-std=c++1y -g"
+COMMON_CXX_FLAGS = "-std=c++1y -g -ggdb -fPIC"
 
 ROCKET_LIBS = ['RocketCore', 'RocketControls', 'RocketDebugger', ]
 GENERAL_LIBS = ['stdc++', 'pthread', 'python2.7', 'dl', ]
@@ -8,37 +8,23 @@ BOOST_LIBS = ['boost_timer', 'boost_filesystem', 'boost_system', 'boost_thread',
 SDL_LIBS = ['SDL2', 'SDL2_ttf', 'SDL2_image', ]
 BULLET_LIBS = ['BulletCollision', 'BulletSoftBody', 'BulletDynamics', 'LinearMath']
 
-ALL_LIBS = GENERAL_LIBS + GL_LIBS + BOOST_LIBS + SDL_LIBS + ROCKET_LIBS + BULLET_LIBS
+ALL_LIBS = GENERAL_LIBS + GL_LIBS + BOOST_LIBS + SDL_LIBS + ROCKET_LIBS + BULLET_LIBS 
 
 
 engine_src = ENGINE_PATH + '/src/'
 
+
+
 engine_deps = [
-       Glob(engine_src + 'resources/ResourceManager.cpp'),
-    Glob(engine_src + 'resources/LevelManager.cpp'),
-    Glob(engine_src + 'resources/exceptions.cpp'),
-    Glob(engine_src + 'resources/WorldLoader.cpp'),
-    Glob(engine_src + 'resources/Loader.cpp'),
-    Glob(engine_src + 'libload/*.cpp'),
-    Glob(engine_src + 'types/*.cpp'),
-    Glob(engine_src + 'misc/*.cpp'),
-    Glob(engine_src + 'world/*.cpp'),
-    Glob(engine_src + 'entities/*.cpp'),
-    Glob(engine_src + 'time/*.cpp'),
-    Glob(engine_src + 'physics/*.cpp'),
-    Glob(engine_src + 'config/*.cpp'),
-    Glob(engine_src + 'python/*.cpp'),
-Glob(engine_src + 'renderer/*.cpp'),
-Glob(engine_src + 'renderer/actions/*.cpp'),
-    engine_src + 'io/SDLIOInterface.cpp',
-Glob(engine_src + 'ui/*.cpp'),
-Glob(engine_src + 'ui/librocket_interfaces/*.cpp'),
+       
+   
 ]
 
 main_modules = [
    Glob('src/*.cpp'),
     Glob('src/listeners/*.cpp'),
 Glob('src/rendering/*.cpp'),
+Glob('src/state_handlers/*.cpp'),
 ] + engine_deps
 
 env = Environment(CPPPATH=[
@@ -48,5 +34,9 @@ env = Environment(CPPPATH=[
     './src',
 ])
 
-env.Append(LINKFLAGS='-rdynamic')
-env.Program('./level_editor', main_modules, LIBS=ALL_LIBS, LIBPATH='.', CXXFLAGS=COMMON_CXX_FLAGS, )
+lib = File(ENGINE_PATH+'/bin/libengine.so')
+
+env.Append(LINKFLAGS=['-rdynamic'])
+env.Program('./bin/level_editor', main_modules, LIBS=ALL_LIBS+[lib], CXXFLAGS=COMMON_CXX_FLAGS, )
+
+

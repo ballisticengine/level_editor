@@ -13,8 +13,6 @@ private:
     virtual void initWindow();
     
 public:
-    static World *world;
-  
     IO();
     virtual ~IO();
     virtual void eventLoop();
