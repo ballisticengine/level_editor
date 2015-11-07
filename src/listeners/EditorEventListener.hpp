@@ -8,6 +8,7 @@
 class EditorEventListener : public Rocket::Core::EventListener {
 protected:
     UI *ui;
+    Rocket::Core::ElementDocument *doc;
 public:
     EditorEventListener();
     virtual ~EditorEventListener();

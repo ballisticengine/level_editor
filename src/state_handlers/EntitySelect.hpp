@@ -7,9 +7,9 @@
 class EntitySelect : public StateHandler {
 protected:
     EditorEventListener *listener;
+    UIDocument *doc;
 public:
     EntitySelect();
-    virtual void before(StateChangeData data);
     virtual void after(StateChangeData data);
 };
 

@@ -23,7 +23,6 @@
 #define PI 3.14159265358979323846
 #define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
 
-
 IO::IO() {
 }
 
@@ -50,12 +49,12 @@ void IO::eventLoop() {
 
     SDL_Event event;
     UI *ui = UI::getInstance();
-    EngineState::getInstance()->setString("current_level", "");
-    EngineState::getInstance()->setString("mode", "normal");
-    
-    
-    EngineState::getInstance()->setStateHandler("current_level", new LevelChange());
-    EngineState::getInstance()->setStateHandler("selected_entity", new EntitySelect());
+    EngineState *es = EngineState::getInstance();
+    es->setString("current_level", "");
+    es->setString("mode", "normal");
+    es->setNumber("move_multipler", 10);
+    es->setStateHandler("current_level", new LevelChange());
+    es->setStateHandler("selected_entity", new EntitySelect());
 
     int mouse_x, mouse_y;
     TopToolbarListener *ttl = new TopToolbarListener();
@@ -66,6 +65,7 @@ void IO::eventLoop() {
     LeveledRenderingManager::getInstance()
             ->getRenderer()->addShader("light");
     WorldManager *wm = WorldManager::getInstance();
+    double m, tx, ty, tz;
     while (!EngineState::getInstance()->getBool("exit")) {
 
         while (SDL_PollEvent(& event)) {
@@ -78,9 +78,10 @@ void IO::eventLoop() {
                 case SDL_MOUSEWHEEL:
 
                     rotation = wm->getCurrentWorld()->observer.getCoords().rotation;
-                    lx = sin(DEG2RAD(rotation.x)) * event.wheel.y;
-                    ly = -sin(DEG2RAD(rotation.x)) * event.wheel.y;
-                    lz = cos(DEG2RAD(rotation.y)) * event.wheel.y;
+                    m = es->getNumber("move_multipler");
+                    lx = -sin(DEG2RAD(rotation.y)) * event.wheel.y*m;
+                    ly = sin(DEG2RAD(rotation.x)) * event.wheel.y*m;
+                    lz = cos(DEG2RAD(rotation.y)) * event.wheel.y*m;
 
 
                     wm->getCurrentWorld()->observer.translate(lx, ly, lz);
@@ -94,13 +95,9 @@ void IO::eventLoop() {
                             ri->turnLights(false);
                             LeveledRenderingManager::getInstance()->renderColored();
                             ColorRGBA c = ri->readPixel(event.button.x, event.button.y);
-                            //ri->turnLights(true);
 
-                           EngineState::getInstance()->setPtr("selected_entity", 
-                                   wm->getCurrentWorld()->findEntityByColor(c));
-//                            if (EngineState::getInstance()->getPtr("selected_entity")) {
-//                                cout << "Name: " << wm->getCurrentWorld()->findEntityByColor(c)->name << endl;
-//                            }
+                            EngineState::getInstance()->setPtr("selected_entity",
+                                    wm->getCurrentWorld()->findEntityByColor(c));
                         }
                     }
 
@@ -124,16 +121,22 @@ void IO::eventLoop() {
 
                     if (EngineState::getInstance()->getString("mode") == "translate") {
                         SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
-                        ((ObjectEntity *)EngineState::getInstance()->getPtr("selected_entity"))->translate(mouse_x / 10, mouse_y / 10, 0);
+                        tx = mouse_x /10;
+                        ty = mouse_y /10;
+                        tz = 0;
+                        ((ObjectEntity *) EngineState::getInstance()->getPtr("selected_entity"))->translate(mouse_y / 10, 0, 0);
                     }
 
                     break;
 
+                case SDL_KEYDOWN:
+                    break;
+                
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
-//                        case 'o':
-//                            EngineState::getInstance()->setString("current_level", "level2");
-//                            break;
+                            //                        case 'o':
+                            //                            EngineState::getInstance()->setString("current_level", "level2");
+                            //                            break;
                         case 't':
                             if (EngineState::getInstance()->getPtr("selected_entity")) {
                                 EngineState::getInstance()->setString("mode", "translate");
