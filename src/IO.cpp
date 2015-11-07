@@ -121,38 +121,64 @@ void IO::eventLoop() {
                     break;
 
                 case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_LEFT:
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(1, 0, 0);
-                            break;
-                        case SDLK_RIGHT:
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(-1, 0, 0);
-                            break;
-                        case SDLK_UP:
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, 1);
-                            break;
-                        case SDLK_DOWN:
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, -1);
-                            break;
-                        case ',':
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 1, 0);
-                            break;
+                    if (es->getString("transform_mode") == "translate") {
+                        switch (event.key.keysym.sym) {
+                            case SDLK_LEFT:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(1, 0, 0);
+                                break;
+                            case SDLK_RIGHT:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(-1, 0, 0);
+                                break;
+                            case SDLK_UP:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, 1);
+                                break;
+                            case SDLK_DOWN:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, -1);
+                                break;
+                            case ',':
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 1, 0);
+                                break;
 
-                        case '.':
-                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, -1, 0);
-                            break;
-                    };
+                            case '.':
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, -1, 0);
+                                break;
+                        };
+                    }
+                    
+                    if(es->getString("transform_mode")=="rotate") {
+                         switch (event.key.keysym.sym) {
+                            case SDLK_LEFT:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(1, 0, 0);
+                                break;
+                            case SDLK_RIGHT:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(-1, 0, 0);
+                                break;
+                            case SDLK_UP:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(0, 0, 1);
+                                break;
+                            case SDLK_DOWN:
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(0, 0, -1);
+                                break;
+                            case ',':
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(0, 1, 0);
+                                break;
+
+                            case '.':
+                                ((ObjectEntity *) es->getPtr("selected_entity"))->rotate(0, -1, 0);
+                                break;
+                        }; 
+                    }
                     break;
 
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
-                            
+
                         case 't':
-                            EngineState::getInstance()->setString("transform_mode", "translate");
+                            es->setString("transform_mode", "translate");
                             break;
-                            
+
                         case 'r':
-                            EngineState::getInstance()->setString("transform_mode", "rotate");
+                            es->setString("transform_mode", "rotate");
                             break;
 
                     }
