@@ -51,7 +51,7 @@ void IO::eventLoop() {
     UI *ui = UI::getInstance();
     EngineState *es = EngineState::getInstance();
     es->setString("current_level", "");
-    es->setString("mode", "normal");
+    es->setString("transform_mode", "translate");
     es->setNumber("move_multipler", 10);
     es->setStateHandler("current_level", new LevelChange());
     es->setStateHandler("selected_entity", new EntitySelect());
@@ -113,38 +113,48 @@ void IO::eventLoop() {
                     break;
 
                 case SDL_MOUSEMOTION:
-                    if (EngineState::getInstance()->getString("mode") == "normal") {
-                        if (EngineState::getInstance()->getBool("view_drag")) {
-                            wm->getCurrentWorld()->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
-                        }
-                    }
 
-                    if (EngineState::getInstance()->getString("mode") == "translate") {
-                        SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
-                        tx = mouse_x /10;
-                        ty = mouse_y /10;
-                        tz = 0;
-                        ((ObjectEntity *) EngineState::getInstance()->getPtr("selected_entity"))->translate(mouse_y / 10, 0, 0);
+                    if (EngineState::getInstance()->getBool("view_drag")) {
+                        wm->getCurrentWorld()->observer.rotate(event.motion.yrel, event.motion.xrel, 0);
                     }
 
                     break;
 
                 case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_LEFT:
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(1, 0, 0);
+                            break;
+                        case SDLK_RIGHT:
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(-1, 0, 0);
+                            break;
+                        case SDLK_UP:
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, 1);
+                            break;
+                        case SDLK_DOWN:
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 0, -1);
+                            break;
+                        case ',':
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, 1, 0);
+                            break;
+
+                        case '.':
+                            ((ObjectEntity *) es->getPtr("selected_entity"))->translate(0, -1, 0);
+                            break;
+                    };
                     break;
-                
+
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
-                            //                        case 'o':
-                            //                            EngineState::getInstance()->setString("current_level", "level2");
-                            //                            break;
+                            
                         case 't':
-                            if (EngineState::getInstance()->getPtr("selected_entity")) {
-                                EngineState::getInstance()->setString("mode", "translate");
-                            }
+                            EngineState::getInstance()->setString("transform_mode", "translate");
                             break;
-                        case 'n':
-                            EngineState::getInstance()->setString("mode", "normal");
+                            
+                        case 'r':
+                            EngineState::getInstance()->setString("transform_mode", "rotate");
                             break;
+
                     }
 
 
