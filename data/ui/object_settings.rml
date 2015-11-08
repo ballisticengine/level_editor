@@ -10,6 +10,11 @@
         </handle>
         <div id="content">
           Entity name: <input id="entity_name" />
+          Entity type: <input id="entity_type" />
+          Model: <input id="entity_model" />
+          X: <input id="entity_x" />
+          Y: <input id="entity_y" />
+          Z: <input id="entity_z" />
         </div>
     </body>
 </rml>

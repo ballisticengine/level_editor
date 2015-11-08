@@ -3,8 +3,10 @@
         <link type="text/rcss" href="basic.rcss"/>
         <link type="text/rcss" href="style.rcss"/>
         <link type="text/rcss" href="toolbar.rcss"/>
+        <script src="menu.py"></script>
+              
     </head>
-    <body class="toolbar">
+    <body class="toolbar" onload="bind_menu(event)">
         <ul id="top-toolbar">
             <li id="file">
                 File
@@ -26,6 +28,17 @@
                     </li>
                 </ul>
             </li>
+            <li id="res">
+                Resources
+                <ul id="res">
+                    <li id="res_manage">
+                        Manage
+                    </li>
+                    <li id="res_import">
+                        Import
+                    </li>
+                </ul>
+            </li>
             <li id="options">
                 Options
                 <ul id="options-sub">
@@ -33,5 +46,6 @@
                 </ul>
             </li>
         </ul>
+  
     </body>
 </rml>

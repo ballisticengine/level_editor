@@ -49,13 +49,15 @@ void IO::eventLoop() {
 
     SDL_Event event;
     UI *ui = UI::getInstance();
+    //ui->showDebug(true);
     EngineState *es = EngineState::getInstance();
-    es->setString("current_level", "");
+    
     es->setString("transform_mode", "translate");
     es->setNumber("move_multipler", 10);
     es->setStateHandler("current_level", new LevelChange());
     es->setStateHandler("selected_entity", new EntitySelect());
-
+    es->setString("current_level", "");
+    
     int mouse_x, mouse_y;
     TopToolbarListener *ttl = new TopToolbarListener();
     new OpenListener();

@@ -13,6 +13,10 @@ void LevelChange::before(StateChangeData data) {
 void LevelChange::after(StateChangeData data) {
     Loader *l = (Loader *) LibLoad::getInstance()->getLoaderByExtension("xml", LEVEL);
     string lvl = *(string *) data.value;
+    if(lvl=="") {
+        cout << "Empty level" << endl;
+        return;
+    }
     cout << "level changed to: " << lvl << endl;
     ResourceManager::getInstance()->setWD(EngineState::getInstance()->getString("engine_wd") + "/data");
     ResourceManager::getInstance()->setLevel(lvl);
